@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="NotesWrangler">
-    <serverData>
-      <paths name="NotesWrangler">
-        <serverdata>
-          <mappings>
-            <mapping deploy="/src" local="$PROJECT_DIR$" web="/src" />
-          </mappings>
-        </serverdata>
-      </paths>
-    </serverData>
-  </component>
+  <component name="PublishConfigData" serverName="NotesWrangler" />
 </project>

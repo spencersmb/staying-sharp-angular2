@@ -2,7 +2,10 @@
 angular.module('NoteWrangler', [
   'ngResource',
   'ui.router',
-  'NoteWrangler.models.notes'
+  'NoteWrangler.models.notes',
+  'NoteWrangler.models.users',
+  'NoteWrangler.models.categories'
+
 
   //'notes'
 ])

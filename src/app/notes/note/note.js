@@ -27,18 +27,61 @@
 'use strict';
 
 angular.module('NoteWrangler')
-  .controller('NotesCtrl', function (NotesModel, $stateParams) {
+  .controller('NotesCtrl', function (NotesModel, UsersModel, CategoriesModel, $stateParams) {
     var ctrl = this,
-      noteId = $stateParams.noteId;
+      noteId = $stateParams.noteId,
+      noteCategoryId;
+
+
 
     //pass in note id from URL first
-    NotesModel.setCurrentId(noteId);
+    NotesModel.setCurrentNote(noteId);
 
-    ctrl.title = NotesModel.getCurrentNoteTitle;
-    //NotesModel.getNotes().then(function (result) {
-    //  ctrl.notes = result;
-    //  console.log(result);
-    //});
+    //get note by ID and set the obj available to the scope using stateParams
+    NotesModel.getNoteById(noteId).then(function (result) {
+      //console.log(result);
+      ctrl.note = result;
+      console.log(ctrl.note.categoryId);
+      ctrl.golden = NotesModel.setCurrentCategory(8);
 
-    //ctrl.getCurrentId = NotesModel.getCurrentNote;
-  });
+    });
+
+      //NotesModel.getCategories().then(function (result) {
+      //  ctrl.cats = result;
+      //});
+      //ctrl.title= NotesModel.getCurrentNoteTitle;
+      //console.log(ctrl.title());
+
+
+    //get current noteCategoryId
+     ctrl.noteCategoryId = NotesModel.getCurrentNoteCategoryId;
+
+    //Get users
+    UsersModel.getUserByNoteId(noteId).then(function (result) {
+      ctrl.user = result;
+    });
+
+    //console.log(ctrl.noteCategoryId());
+
+      ctrl.getCatByNoteId = CategoriesModel.getCurrentCat;
+    //Get Category Name
+    //CategoriesModel.setCurrentCategory(noteId);
+
+    CategoriesModel.getCategoryByNoteId(8).then(function (result) {
+      //console.log(result);
+      ctrl.category = result;
+    });
+
+      //CategoriesModel.getCategories().then(function (result) {
+      //  var categories = [];
+      //  //categories.push(result);
+      //  angular.forEach(result, function(response) {
+      //    categories.push(response);
+      //  });
+      //  return categories;
+      //}).then(function(tmpResult) {
+      //  ctrl.combinedResult = tmpResult;
+      //
+      //});
+
+    });
