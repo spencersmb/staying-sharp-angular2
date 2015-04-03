@@ -16,7 +16,6 @@ angular.module('NoteWrangler.models.notes', [
       currentCategory;
 
 
-
     //before we send data to ctrl - we extract it here
     function extract(result) {
       return result.data
@@ -29,7 +28,7 @@ angular.module('NoteWrangler.models.notes', [
 
     function cacheCategories(result) {
       noteCategories = extract(result);
-      console.log(result);
+      //console.log(result);
       return noteCategories;
     }
 
@@ -41,9 +40,6 @@ angular.module('NoteWrangler.models.notes', [
       return (noteCategories) ? $q.when(noteCategories) : $http.get(URL_Cat.FETCH).then(cacheCategories);
     };
 
-      //model.getSingleNote = function(){
-      //  return currentNote ? currentNote :
-      //};
 
     //2nd function that takes in the current ID from URL and runs the fetch to get the note from the json file that matches the ID in the url
     model.setCurrentNote = function(noteId){
@@ -57,32 +53,25 @@ angular.module('NoteWrangler.models.notes', [
     };
 
     model.setCurrentCategory = function(noteCatId){
-      //console.log(noteId);
+
       //passing noteID success
       return model.getCatByNoteCategoryId(noteCatId).then(function (category) {
+
         //console.log(category);
         currentCategory = category;
-        //model.getNote = currentNote;
       })
     };
-
-    //model.setCurrentCategory(currentNote.categoryId);
 
     model.getCurrentNoteTitle = function () {
       return currentNote ? currentNote.title : ''
     };
 
-    model.getCurrentNoteCategoryId = function () {
-      return currentNote ? currentNote.categoryId : ''
-    };
-
     model.getCategory = function () {
-      return currentNote ? currentNote : ''
-
+      return currentCategory ? currentCategory.name : ''
 
     };
 
-      //3rd run the promise
+      //3rd run the promise for cats
       model.getCatByNoteCategoryId = function (noteCatId) {
         //create a deferred object
         var deferred = $q.defer();
@@ -90,7 +79,7 @@ angular.module('NoteWrangler.models.notes', [
         function findId() {
           //finds a match if one exists when we call getCategoryByName
           return _.find(noteCategories, function (c) {
-            console.log(c.id == noteCatId);
+            //console.log(c.id == noteCatId);
             return c.id == noteCatId;
           })
         }
@@ -113,7 +102,7 @@ angular.module('NoteWrangler.models.notes', [
         return deferred.promise;
       };
 
-    //3rd run the promise
+    //3rd run the promise for notes
     model.getNoteById = function (noteId) {
       //create a deferred object
       var deferred = $q.defer();
