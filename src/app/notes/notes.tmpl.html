@@ -1,12 +1,15 @@
-<h1>Notes Index</h1>
+<h4>Notes Index</h4>
 
 <div class="row">
   <div class="col-sm-6" ng-repeat="note in ctrl.notes">
     <h2><a ui-sref="note({noteId:note.id})">{{note.title}}</a></h2>
+
     <p>{{note.description}}</p>
   </div>
 </div>
-
+<hr/>
+<br/>
+<a class="btn btn-default" ui-sref="create">Create Note</a>
 
 <!--<a ui-sref="notewrangler.notes.note">notes 1</a>-->
 

@@ -1,33 +1,19 @@
-//angular.module('note',[
-//
-//])
-//  .config(function ($stateProvider) {
-//    $stateProvider
-//      //.state('notewrangler.notes.note',{
-//      //  url:'note/:noteId',
-//      //  templateUrl:'app/notes/note/note.tmpl.html',
-//      //  controller:'NoteListCtrl as noteListCtrl'
-//      //});
-//      //.state('notewrangler.notes.note',{
-//      //  url:'notes/:noteId',
-//      //  views:{
-//      //    'note@':{
-//      //      controller: 'NoteListCtrl as noteListCtrl',
-//      //      templateUrl:'app/notes/note/note.tmpl.html'
-//      //    }
-//      //  }
-//      //})
-//  })
-//  .controller('NoteListCtrl', function NotesListCtrl() {
-//    var noteListCtrl = this;
-//
-//  })
-//;
-
 'use strict';
 
 angular.module('NoteWrangler')
-  .controller('NotesCtrl', function (NotesModel, UsersModel, CategoriesModel, $stateParams) {
+  //.config(function ($stateProvider) {
+  //  $stateProvider
+  //    .state('notewrangler.notes.note', {
+  //      url: 'notes/:noteId',
+  //      views: {
+  //        'mainView@': {
+  //          controller: 'NotesCtrl as ctrl',
+  //          templateUrl: 'app/notes/note/note.tmpl.html'
+  //        }
+  //      }
+  //    })
+  //})
+  .controller('NotesCtrl', function (NotesModel, UsersModel, CategoriesModel, $stateParams, $state) {
     var ctrl = this,
       noteId = $stateParams.noteId;
 
@@ -37,15 +23,41 @@ angular.module('NoteWrangler')
     //get note by ID and set the obj available to the scope using stateParams
     NotesModel.getNoteById(noteId).then(function (result) {
       ctrl.note = result;
-      NotesModel.setCurrentCategory(ctrl.note.categoryId);
+
     });
+
+    //make http request for categories
+    CategoriesModel.getCategories().then(function (result) {
+      ctrl.categories = result;
+    });
+
+    //get categrory name based on current notecard category id
+    ctrl.getcatname = CategoriesModel.getCurrentNoteCategoryName;
 
     //Get users
     UsersModel.getUserByNoteId(noteId).then(function (result) {
       ctrl.user = result;
     });
 
-    //Get Category Name
-    ctrl.noteCategory = NotesModel.getCategory;
+    function returnToNotes(){
+      $state.go('notes', {
+        //passs in param
+        //noteId: noteId
+      })
+    }
 
-    });
+    function goBack(){
+      returnToNotes();
+    }
+
+    function deleteNote(note){
+
+      ctrl.deleteNote = NotesModel.deleteBookmark;
+      ctrl.deleteNote(note);
+      returnToNotes();
+    }
+    ctrl.goBack = goBack;
+
+    ctrl.deleted = deleteNote;
+
+});
